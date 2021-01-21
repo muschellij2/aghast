@@ -15,8 +15,10 @@
 #' a = ga_artifact_list("muschellij2", "pycwa")
 #' a
 #' a_id = a$artifacts[[1]]$id
+#' \dontrun{
 #' art = ga_artifact("muschellij2", "pycwa", a$artifacts[[1]]$id)
 #' dl = ga_artifact_download("muschellij2", "pycwa", a$artifacts[[1]]$id)
+#' }
 ga_artifact_list = function(owner, repo, ...) {
   gh::gh(
     glue::glue(

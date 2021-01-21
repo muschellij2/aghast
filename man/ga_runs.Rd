@@ -53,9 +53,11 @@ GitHub runs
 \examples{
 runs = ga_run_list("muschellij2", "pycwa")
 run_id = runs$workflow_runs[[1]]$id
+\dontrun{
 run = ga_run("muschellij2", "pycwa", run_id)
 run_jobs = ga_run_jobs("muschellij2", "pycwa", run_id)
 run_log = ga_run_download_log("muschellij2", "pycwa", run_id)
+usage = ga_run_usage("muschellij2", "pycwa", run_id)
 run_artifacts = ga_run_artifacts("muschellij2", "pycwa", run_id)
-
+}
 }
