@@ -37,10 +37,32 @@ remotes::install_github("muschellij2/aghast")
 ```
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+List a number of runs:
 
 ```{r example}
 library(aghast)
 runs = ga_run_list("muschellij2", "pycwa")
-runs
+runs$workflow_runs[[1]]
+```
+
+Here is the 
+```{r}
+find_sha = "f2e0935fb4623b6432c177590bcfb7d13a09767f"
+tab = ga_run_table("r-lib", "actions", page = 1)
+row = which(tab$head_sha == find_sha)[1]
+itab = tab[row,]
+run_id = itab$id
+run_log = ga_run_download_log(itab$repository_owner_login,
+                              itab$repository_name, 
+                              run_id)
+config = ga_run_log_config(run_log)
+config$`macOS-latest (release)/3_Run r-libactionssetup-r@master.txt`
+```
+
+```{r}
+jobs = ga_run_jobs_table(itab$repository_owner_login,
+                         itab$repository_name, 
+                         run_id = run_id)
+head(jobs[, !colnames(jobs) %in% "steps"])
+head(jobs$steps[[1]])
 ```

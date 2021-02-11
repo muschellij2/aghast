@@ -9,9 +9,9 @@
 \alias{ga_workflow_enable}
 \title{GitHub Workflows}
 \usage{
-ga_workflow_list(owner, repo, ...)
+ga_workflow_list(owner, repo, page = NULL, per_page = NULL, ...)
 
-ga_workflow_runs(owner, repo, workflow_id, ...)
+ga_workflow_runs(owner, repo, workflow_id, page = NULL, per_page = NULL, ...)
 
 ga_workflow(owner, repo, workflow_id, ...)
 
@@ -25,6 +25,10 @@ ga_workflow_enable(owner, repo, workflow_id, ...)
 \item{owner}{owner of repo/username}
 
 \item{repo}{repository name}
+
+\item{page}{page to query.  If \code{NULL}, then will iterate through all pages}
+
+\item{per_page}{number of results per page.}
 
 \item{...}{additional arguments to pass to \code{\link[gh:gh]{gh::gh()}}}
 

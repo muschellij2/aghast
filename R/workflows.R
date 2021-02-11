@@ -3,6 +3,8 @@
 #' @param owner owner of repo/username
 #' @param repo repository name
 #' @param workflow_id identifier of workflow
+#' @param page page to query.  If \code{NULL}, then will iterate through all pages
+#' @param per_page number of results per page.
 #' @param ... additional arguments to pass to [gh::gh()]
 #'
 #' @return Answer from the API as a `ga_response` object, which is also a list.
@@ -19,24 +21,38 @@
 #' flow = ga_workflow("muschellij2", "pycwa", workflow_id)
 #' usage = ga_workflow_usage("muschellij2", "pycwa", workflow_id)
 #' }
-ga_workflow_list = function(owner, repo, ...) {
-  gh::gh(
-    glue::glue(
-      "GET /repos/{owner}/{repo}/actions/workflows",
-    ),
-    ...
-  )
+ga_workflow_list = function(owner, repo, page = NULL, per_page = NULL, ...) {
+  run_list = function(owner, repo, page = NULL, per_page = NULL, ...) {
+    gh::gh(
+      glue::glue(
+        "GET /repos/{owner}/{repo}/actions/workflows",
+      ),
+      page = page,
+      per_page = per_page,
+      ...
+    )
+  }
+  args = list(owner, repo, page = page, per_page = per_page, ...)
+  first = do.call(run_list, args = args)
+  rerun_multiple_pages(first, page, args, run_list)
 }
 
 #' @rdname ga_workflows
 #' @export
-ga_workflow_runs = function(owner, repo, workflow_id, ...) {
-  gh::gh(
-    glue::glue(
-      "GET /repos/{owner}/{repo}/actions/workflows/{workflow_id}/runs",
-    ),
-    ...
-  )
+ga_workflow_runs = function(owner, repo, workflow_id, page = NULL, per_page = NULL, ...) {
+  run_list = function(owner, repo, workflow_id, page = NULL, per_page = NULL, ...) {
+    gh::gh(
+      glue::glue(
+        "GET /repos/{owner}/{repo}/actions/workflows/{workflow_id}/runs",
+      ),
+      page = page,
+      per_page = per_page,
+      ...
+    )
+  }
+  args = list(owner, repo, workflow_id, page = page, per_page = per_page, ...)
+  first = do.call(run_list, args = args)
+  rerun_multiple_pages(first, page, args, run_list)
 }
 
 

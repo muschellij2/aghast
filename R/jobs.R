@@ -12,6 +12,9 @@
 #'
 #' @rdname ga_jobs
 #' @examples
+#' job_id = "1475662285"
+#' job_out = ga_job("muschellij2", "pycwa", job_id)
+#' job_log = ga_job_logs("muschellij2", "pycwa", job_id)
 ga_job = function(owner, repo, job_id, ...) {
   gh::gh(
     glue::glue(
@@ -24,12 +27,18 @@ ga_job = function(owner, repo, job_id, ...) {
 #' @rdname ga_jobs
 #' @export
 ga_job_logs = function(owner, repo, job_id, ...) {
-  gh::gh(
+  args = list(
     glue::glue(
       "GET /repos/{owner}/{repo}/actions/jobs/{job_id}/logs",
     ),
-    ...
-  )
+    ...)
+  if (!".destfile" %in% names(args)) {
+    destfile = tempfile(fileext = ".txt")
+    args$.destfile = destfile
+  } else {
+    destfile = args$.destfile
+  }
+  result = do.call(gh::gh, args = args)
 }
 
 

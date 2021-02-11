@@ -2,6 +2,7 @@
 % Please edit documentation in R/runs.R
 \name{ga_run_list}
 \alias{ga_run_list}
+\alias{ga_run_table}
 \alias{ga_run}
 \alias{ga_run_delete}
 \alias{ga_run_cancel}
@@ -10,10 +11,13 @@
 \alias{ga_run_rerun}
 \alias{ga_run_usage}
 \alias{ga_run_jobs}
+\alias{ga_run_jobs_table}
 \alias{ga_run_artifacts}
 \title{GitHub runs}
 \usage{
-ga_run_list(owner, repo, ...)
+ga_run_list(owner, repo, page = NULL, per_page = NULL, ...)
+
+ga_run_table(...)
 
 ga_run(owner, repo, run_id, ...)
 
@@ -31,12 +35,18 @@ ga_run_usage(owner, repo, run_id, ...)
 
 ga_run_jobs(owner, repo, run_id, page = NULL, per_page = NULL, ...)
 
+ga_run_jobs_table(...)
+
 ga_run_artifacts(owner, repo, run_id, page = NULL, per_page = NULL, ...)
 }
 \arguments{
 \item{owner}{owner of repo/username}
 
 \item{repo}{repository name}
+
+\item{page}{page to query.  If \code{NULL}, then will iterate through all pages}
+
+\item{per_page}{number of results per page.}
 
 \item{...}{additional arguments to pass to \code{\link[gh:gh]{gh::gh()}}}
 
@@ -52,6 +62,8 @@ GitHub runs
 }
 \examples{
 runs = ga_run_list("muschellij2", "pycwa")
+tab = ga_run_table("muschellij2", "pycwa")
+tab$head_sha
 run_id = runs$workflow_runs[[1]]$id
 \dontrun{
 run = ga_run("muschellij2", "pycwa", run_id)

@@ -26,3 +26,8 @@ Requests that generate a raw response will return a raw vector.
 \description{
 GitHub jobs
 }
+\examples{
+job_id = "1475662285"
+job_out = ga_job("muschellij2", "pycwa", job_id)
+job_log = ga_job_logs("muschellij2", "pycwa", job_id)
+}
