@@ -29,9 +29,9 @@ ga_run_rerun(owner, repo, run_id, ...)
 
 ga_run_usage(owner, repo, run_id, ...)
 
-ga_run_jobs(owner, repo, run_id, ...)
+ga_run_jobs(owner, repo, run_id, page = NULL, per_page = NULL, ...)
 
-ga_run_artifacts(owner, repo, run_id, ...)
+ga_run_artifacts(owner, repo, run_id, page = NULL, per_page = NULL, ...)
 }
 \arguments{
 \item{owner}{owner of repo/username}

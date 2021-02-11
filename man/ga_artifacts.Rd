@@ -7,7 +7,7 @@
 \alias{ga_artifact_download}
 \title{GitHub Artifacts}
 \usage{
-ga_artifact_list(owner, repo, ...)
+ga_artifact_list(owner, repo, page = NULL, per_page = NULL, ...)
 
 ga_artifact(owner, repo, artifact_id, ...)
 
@@ -19,6 +19,10 @@ ga_artifact_download(owner, repo, artifact_id, archive_format = "zip", ...)
 \item{owner}{owner of repo/username}
 
 \item{repo}{repository name}
+
+\item{page}{page to query.  If \code{NULL}, then will iterate through all pages}
+
+\item{per_page}{number of results per page, max is 100.}
 
 \item{...}{additional arguments to pass to \code{\link[gh:gh]{gh::gh()}}}
 

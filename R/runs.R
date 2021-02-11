@@ -116,23 +116,37 @@ ga_run_usage = function(owner, repo, run_id, ...) {
 
 #' @rdname ga_runs
 #' @export
-ga_run_jobs = function(owner, repo, run_id, ...) {
-  gh::gh(
-    glue::glue(
-      "GET /repos/{owner}/{repo}/actions/runs/{run_id}/jobs",
-    ),
-    ...
-  )
+ga_run_jobs = function(owner, repo, run_id, page = NULL, per_page = NULL, ...) {
+  run_list = function(owner, repo, run_id, page = NULL, per_page = NULL, ...) {
+    gh::gh(
+      glue::glue(
+        "GET /repos/{owner}/{repo}/actions/runs/{run_id}/jobs",
+      ),
+      page = page,
+      per_page = per_page,
+      ...
+    )
+  }
+  args = list(owner, repo, page = page, per_page = per_page, ...)
+  first = do.call(run_list, args = args)
+  rerun_multiple_pages(first, page, args, run_list, extract_column = "jobs")
 }
 
 
 #' @rdname ga_runs
 #' @export
-ga_run_artifacts = function(owner, repo, run_id, ...) {
-  gh::gh(
-    glue::glue(
-      "GET /repos/{owner}/{repo}/actions/runs/{run_id}/artifacts",
-    ),
-    ...
-  )
+ga_run_artifacts = function(owner, repo, run_id, page = NULL, per_page = NULL, ...) {
+  run_list = function(owner, repo, run_id, page = NULL, per_page = NULL, ...) {
+    gh::gh(
+      glue::glue(
+        "GET /repos/{owner}/{repo}/actions/runs/{run_id}/artifacts",
+      ),
+      page = page,
+      per_page = per_page,
+      ...
+    )
+  }
+  args = list(owner, repo, run_id, page = page, per_page = per_page, ...)
+  first = do.call(run_list, args = args)
+  rerun_multiple_pages(first, page, args, run_list, extract_column = "artifacts")
 }

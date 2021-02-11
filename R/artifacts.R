@@ -3,6 +3,8 @@
 #' @param owner owner of repo/username
 #' @param repo repository name
 #' @param artifact_id identifier of artifact
+#' @param page page to query.  If \code{NULL}, then will iterate through all pages
+#' @param per_page number of results per page, max is 100.
 #' @param ... additional arguments to pass to [gh::gh()]
 #'
 #' @return Answer from the API as a `ga_response` object, which is also a list.
@@ -19,13 +21,20 @@
 #' art = ga_artifact("muschellij2", "pycwa", a$artifacts[[1]]$id)
 #' dl = ga_artifact_download("muschellij2", "pycwa", a$artifacts[[1]]$id)
 #' }
-ga_artifact_list = function(owner, repo, ...) {
-  gh::gh(
-    glue::glue(
-      "GET /repos/{owner}/{repo}/actions/artifacts",
-    ),
-    ...
-  )
+ga_artifact_list = function(owner, repo, page = NULL, per_page = NULL, ...) {
+  run_list = function(owner, repo, page = NULL, per_page = NULL, ...) {
+    gh::gh(
+      glue::glue(
+        "GET /repos/{owner}/{repo}/actions/artifacts",
+      ),
+      page = page,
+      per_page = per_page,
+      ...
+    )
+  }
+  args = list(owner, repo, page = page, per_page = per_page, ...)
+  first = do.call(run_list, args = args)
+  rerun_multiple_pages(first, page, args, run_list, extract_column = "artifacts")
 }
 
 #' @rdname ga_artifacts
