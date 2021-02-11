@@ -43,6 +43,7 @@ Requests that generate a raw response will return a raw vector.
 GitHub Workflows
 }
 \examples{
+w = ga_workflow_list("muschellij2/pycwa", page = 1)
 w = ga_workflow_list("muschellij2", "pycwa")
 workflow_id = w$workflows[[1]]$id
 \dontrun{

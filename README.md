@@ -34,6 +34,15 @@ List a number of runs:
 
 ``` r
 library(aghast)
+library(dplyr)
+#> 
+#> Attaching package: 'dplyr'
+#> The following objects are masked from 'package:stats':
+#> 
+#>     filter, lag
+#> The following objects are masked from 'package:base':
+#> 
+#>     intersect, setdiff, setequal, union
 runs = ga_run_list("muschellij2", "pycwa")
 runs$workflow_runs[[1]]
 #> $id
@@ -522,6 +531,37 @@ runs$workflow_runs[[1]]
 #> 
 #> $head_repository$deployments_url
 #> [1] "https://api.github.com/repos/muschellij2/pycwa/deployments"
+
+runs = ga_run_table("muschellij2", "pycwa")
+run_id = runs$id[1]
+out = ga_run_jobs_table("muschellij2", "pycwa", run_id)
+out$name
+#> [1] "macOS-latest (release)"   "windows-latest (release)"
+#> [3] "windows-latest (3.6)"     "ubuntu-16.04 (devel)"    
+#> [5] "ubuntu-16.04 (release)"   "ubuntu-16.04 (oldrel)"   
+#> [7] "ubuntu-16.04 (3.5)"       "ubuntu-16.04 (3.4)"
+if (requireNamespace("dplyr", quietly = TRUE)) {
+  library(dplyr)
+  out = out %>% 
+    dplyr::mutate(r_version = sub("\\((.*)\\)", "\\1", name),
+           os = trimws(sub("\\(.*", "", name)))
+  head(out %>% 
+         dplyr::select(job_id = id, run_id, name, r_version, os))
+}
+#>       job_id    run_id                     name              r_version
+#> 1 1475662226 392215958   macOS-latest (release)   macOS-latest release
+#> 2 1475662260 392215958 windows-latest (release) windows-latest release
+#> 3 1475662285 392215958     windows-latest (3.6)     windows-latest 3.6
+#> 4 1475662309 392215958     ubuntu-16.04 (devel)     ubuntu-16.04 devel
+#> 5 1475662335 392215958   ubuntu-16.04 (release)   ubuntu-16.04 release
+#> 6 1475662371 392215958    ubuntu-16.04 (oldrel)    ubuntu-16.04 oldrel
+#>               os
+#> 1   macOS-latest
+#> 2 windows-latest
+#> 3 windows-latest
+#> 4   ubuntu-16.04
+#> 5   ubuntu-16.04
+#> 6   ubuntu-16.04
 ```
 
 Here is the

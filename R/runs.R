@@ -26,6 +26,9 @@
 #' run_artifacts = ga_run_artifacts("muschellij2", "pycwa", run_id)
 #' }
 ga_run_list = function(owner, repo, page = NULL, per_page = NULL, ...) {
+  out = ensure_owner_repo(owner, repo)
+  owner = out$owner
+  repo = out$repo
   run_list = function(owner, repo, page = NULL, per_page = NULL, ...) {
     gh::gh(
       glue::glue(
@@ -51,6 +54,9 @@ ga_run_table = function(...) {
 #' @rdname ga_runs
 #' @export
 ga_run = function(owner, repo, run_id, ...) {
+  out = ensure_owner_repo(owner, repo)
+  owner = out$owner
+  repo = out$repo
   gh::gh(
     glue::glue(
       "GET /repos/{owner}/{repo}/actions/runs/{run_id}",
@@ -62,6 +68,9 @@ ga_run = function(owner, repo, run_id, ...) {
 #' @rdname ga_runs
 #' @export
 ga_run_delete = function(owner, repo, run_id, ...) {
+  out = ensure_owner_repo(owner, repo)
+  owner = out$owner
+  repo = out$repo
   gh::gh(
     glue::glue(
       "DELETE /repos/{owner}/{repo}/actions/runs/{run_id}",
@@ -73,6 +82,9 @@ ga_run_delete = function(owner, repo, run_id, ...) {
 #' @rdname ga_runs
 #' @export
 ga_run_cancel = function(owner, repo, run_id, ...) {
+  out = ensure_owner_repo(owner, repo)
+  owner = out$owner
+  repo = out$repo
   gh::gh(
     glue::glue(
       "POST /repos/{owner}/{repo}/actions/runs/{run_id}/cancel",
@@ -84,6 +96,9 @@ ga_run_cancel = function(owner, repo, run_id, ...) {
 #' @rdname ga_runs
 #' @export
 ga_run_download_log = function(owner, repo, run_id, ...) {
+  out = ensure_owner_repo(owner, repo)
+  owner = out$owner
+  repo = out$repo
   args = list(
     glue::glue(
       "GET /repos/{owner}/{repo}/actions/runs/{run_id}/logs",
@@ -102,6 +117,9 @@ ga_run_download_log = function(owner, repo, run_id, ...) {
 #' @rdname ga_runs
 #' @export
 ga_run_delete_log = function(owner, repo, run_id, ...) {
+  out = ensure_owner_repo(owner, repo)
+  owner = out$owner
+  repo = out$repo
   gh::gh(
     glue::glue(
       "DELETE /repos/{owner}/{repo}/actions/runs/{run_id}/logs",
@@ -113,6 +131,9 @@ ga_run_delete_log = function(owner, repo, run_id, ...) {
 #' @rdname ga_runs
 #' @export
 ga_run_rerun = function(owner, repo, run_id, ...) {
+  out = ensure_owner_repo(owner, repo)
+  owner = out$owner
+  repo = out$repo
   gh::gh(
     glue::glue(
       "POST /repos/{owner}/{repo}/actions/runs/{run_id}/rerun",
@@ -125,6 +146,9 @@ ga_run_rerun = function(owner, repo, run_id, ...) {
 #' @rdname ga_runs
 #' @export
 ga_run_usage = function(owner, repo, run_id, ...) {
+  out = ensure_owner_repo(owner, repo)
+  owner = out$owner
+  repo = out$repo
   gh::gh(
     glue::glue(
       "GET /repos/{owner}/{repo}/actions/runs/{run_id}/timing",
@@ -136,6 +160,9 @@ ga_run_usage = function(owner, repo, run_id, ...) {
 #' @rdname ga_runs
 #' @export
 ga_run_jobs = function(owner, repo, run_id, page = NULL, per_page = NULL, ...) {
+  out = ensure_owner_repo(owner, repo)
+  owner = out$owner
+  repo = out$repo
   run_list = function(owner, repo, run_id, page = NULL, per_page = NULL, ...) {
     gh::gh(
       glue::glue(
@@ -163,6 +190,9 @@ ga_run_jobs_table = function(...) {
 #' @rdname ga_runs
 #' @export
 ga_run_artifacts = function(owner, repo, run_id, page = NULL, per_page = NULL, ...) {
+  out = ensure_owner_repo(owner, repo)
+  owner = out$owner
+  repo = out$repo
   run_list = function(owner, repo, run_id, page = NULL, per_page = NULL, ...) {
     gh::gh(
       glue::glue(

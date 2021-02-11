@@ -18,4 +18,6 @@ Extract Log Configuration
 \examples{
 zipfile = ga_run_download_log("r-lib", "actions",  "551409765")
 config = ga_run_log_config(zipfile)
+zipfile = ga_run_download_log("muschellij2", "pycwa",  "392215958")
+
 }

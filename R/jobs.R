@@ -16,6 +16,9 @@
 #' job_out = ga_job("muschellij2", "pycwa", job_id)
 #' job_log = ga_job_logs("muschellij2", "pycwa", job_id)
 ga_job = function(owner, repo, job_id, ...) {
+  out = ensure_owner_repo(owner, repo)
+  owner = out$owner
+  repo = out$repo
   gh::gh(
     glue::glue(
       "GET /repos/{owner}/{repo}/actions/jobs/{job_id}",
@@ -27,6 +30,9 @@ ga_job = function(owner, repo, job_id, ...) {
 #' @rdname ga_jobs
 #' @export
 ga_job_logs = function(owner, repo, job_id, ...) {
+  out = ensure_owner_repo(owner, repo)
+  owner = out$owner
+  repo = out$repo
   args = list(
     glue::glue(
       "GET /repos/{owner}/{repo}/actions/jobs/{job_id}/logs",

@@ -8,6 +8,8 @@
 #' @examples
 #' zipfile = ga_run_download_log("r-lib", "actions",  "551409765")
 #' config = ga_run_log_config(zipfile)
+#' zipfile = ga_run_download_log("muschellij2", "pycwa",  "392215958")
+#'
 ga_run_log_config = function(zipfile) {
   files = utils::unzip(zipfile, list = TRUE)
   files = files[ grepl(".txt$", files$Name) & grepl("/", files$Name),]
@@ -44,4 +46,8 @@ ga_run_log_config = function(zipfile) {
   })
   names(out) = files$Name
   out
+}
+
+ga_run_r_versions = function(zipfile) {
+  out = ga_run_log_config(zipfile)
 }

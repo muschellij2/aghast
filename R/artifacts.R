@@ -22,6 +22,9 @@
 #' dl = ga_artifact_download("muschellij2", "pycwa", a$artifacts[[1]]$id)
 #' }
 ga_artifact_list = function(owner, repo, page = NULL, per_page = NULL, ...) {
+  out = ensure_owner_repo(owner, repo)
+  owner = out$owner
+  repo = out$repo
   run_list = function(owner, repo, page = NULL, per_page = NULL, ...) {
     gh::gh(
       glue::glue(
@@ -40,6 +43,9 @@ ga_artifact_list = function(owner, repo, page = NULL, per_page = NULL, ...) {
 #' @rdname ga_artifacts
 #' @export
 ga_artifact = function(owner, repo, artifact_id, ...) {
+  out = ensure_owner_repo(owner, repo)
+  owner = out$owner
+  repo = out$repo
   gh::gh(
     glue::glue(
       "GET /repos/{owner}/{repo}/actions/artifacts/{artifact_id}",
@@ -51,6 +57,9 @@ ga_artifact = function(owner, repo, artifact_id, ...) {
 #' @rdname ga_artifacts
 #' @export
 ga_artifact_delete = function(owner, repo, artifact_id, ...) {
+  out = ensure_owner_repo(owner, repo)
+  owner = out$owner
+  repo = out$repo
   gh::gh(
     glue::glue(
       "DELETE /repos/{owner}/{repo}/actions/artifacts/{artifact_id}",
@@ -65,6 +74,9 @@ ga_artifact_delete = function(owner, repo, artifact_id, ...) {
 ga_artifact_download = function(owner, repo, artifact_id,
                                 archive_format = "zip",
                                 ...) {
+  out = ensure_owner_repo(owner, repo)
+  owner = out$owner
+  repo = out$repo
   args = list(
     glue::glue(
       "GET /repos/{owner}/{repo}/actions/artifacts/{artifact_id}/{archive_format}"

@@ -41,8 +41,22 @@ List a number of runs:
 
 ```{r example}
 library(aghast)
+library(dplyr)
 runs = ga_run_list("muschellij2", "pycwa")
 runs$workflow_runs[[1]]
+
+runs = ga_run_table("muschellij2", "pycwa")
+run_id = runs$id[1]
+out = ga_run_jobs_table("muschellij2", "pycwa", run_id)
+out$name
+if (requireNamespace("dplyr", quietly = TRUE)) {
+  library(dplyr)
+  out = out %>% 
+    dplyr::mutate(r_version = sub("\\((.*)\\)", "\\1", name),
+           os = trimws(sub("\\(.*", "", name)))
+  head(out %>% 
+         dplyr::select(job_id = id, run_id, name, r_version, os))
+}
 ```
 
 Here is the 

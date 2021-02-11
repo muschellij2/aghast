@@ -1,3 +1,11 @@
+ensure_owner_repo = function(owner, repo) {
+  if (missing(repo)) {
+    owner = strsplit(owner, "/")[[1]]
+    repo = owner[[2]]
+    owner = owner[[1]]
+  }
+  list(owner = owner, repo = repo)
+}
 rerun_multiple_pages = function(first, page, args, run_list, extract_column = names(first)[2]) {
   if (length(first[[extract_column]]) < first$total_count &&
       !is.null(first[[extract_column]]) && is.null(page)) {
