@@ -16,6 +16,8 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Imports: 
     gh,
-    glue
+    glue,
+    fansi,
+    jsonlite
 URL: https://github.com/muschellij2/aghast
 BugReports: https://github.com/muschellij2/aghast/issues
