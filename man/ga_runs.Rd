@@ -65,7 +65,7 @@ runs = ga_run_list("muschellij2", "pycwa")
 tab = ga_run_table("muschellij2", "pycwa")
 tab$head_sha
 run_id = runs$workflow_runs[[1]]$id
-\dontrun{
+\donttest{
 run = ga_run("muschellij2", "pycwa", run_id)
 run_jobs = ga_run_jobs("muschellij2", "pycwa", run_id)
 run_log = ga_run_download_log("muschellij2", "pycwa", run_id)

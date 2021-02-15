@@ -49,7 +49,7 @@ a = ga_artifact_list("muschellij2", "pycwa")
 a = ga_artifact_list("muschellij2/pycwa")
 a
 a_id = a$artifacts[[1]]$id
-\dontrun{
+\donttest{
 art = ga_artifact("muschellij2", "pycwa", a$artifacts[[1]]$id)
 dl = ga_artifact_download("muschellij2", "pycwa", a$artifacts[[1]]$id)
 }

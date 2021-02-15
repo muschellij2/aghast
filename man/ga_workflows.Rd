@@ -53,7 +53,7 @@ GitHub Workflows
 w = ga_workflow_list("muschellij2/pycwa", page = 1)
 w = ga_workflow_list("muschellij2", "pycwa")
 workflow_id = w$workflows[[1]]$id
-\dontrun{
+\donttest{
 runs = ga_workflow_runs("muschellij2", "pycwa", workflow_id)
 flow = ga_workflow("muschellij2", "pycwa", workflow_id)
 usage = ga_workflow_usage("muschellij2", "pycwa", workflow_id)

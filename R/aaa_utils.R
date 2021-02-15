@@ -76,12 +76,16 @@ gh_helper = function(endpoint, owner, repo, ...) {
   out = ensure_owner_repo(owner, repo)
   owner = out$owner
   repo = out$repo
-  out = gh::gh(
+  args = list(
     endpoint,
     owner = owner,
     repo = repo,
-    ...
-  )
+    ...)
+  if (!".limit" %in% names(args) &&
+      is.null(args$page)) {
+    args$.limit = Inf
+  }
+  out = do.call(gh::gh, args = args)
   attr(out, "owner") = owner
   attr(out, "repo") = repo
   out
