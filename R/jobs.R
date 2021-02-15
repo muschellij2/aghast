@@ -14,29 +14,22 @@
 #' @examples
 #' job_id = "1475662285"
 #' job_out = ga_job("muschellij2", "pycwa", job_id)
+#' job_out2 = ga_job("muschellij2/pycwa", job_id = job_id)
 #' job_log = ga_job_logs("muschellij2", "pycwa", job_id)
-ga_job = function(owner, repo, job_id, ...) {
-  out = ensure_owner_repo(owner, repo)
-  owner = out$owner
-  repo = out$repo
-  gh::gh(
-    glue::glue(
-      "GET /repos/{owner}/{repo}/actions/jobs/{job_id}",
-    ),
-    ...
-  )
+#' job_log = ga_job_logs("muschellij2/pycwa", job_id = job_id)
+ga_job = function(owner, repo = NULL, job_id, ...) {
+  gh_helper(endpoint =  "GET /repos/{owner}/{repo}/actions/jobs/{job_id}",
+            owner = owner, repo = repo, job_id = job_id, ...)
 }
 
 #' @rdname ga_jobs
 #' @export
-ga_job_logs = function(owner, repo, job_id, ...) {
-  out = ensure_owner_repo(owner, repo)
-  owner = out$owner
-  repo = out$repo
+ga_job_logs = function(owner, repo = NULL, job_id, ...) {
   args = list(
-    glue::glue(
-      "GET /repos/{owner}/{repo}/actions/jobs/{job_id}/logs",
-    ),
+    endpoint = "GET /repos/{owner}/{repo}/actions/jobs/{job_id}/logs",
+    owner = owner,
+    repo = repo,
+    job_id = job_id,
     ...)
   if (!".destfile" %in% names(args)) {
     destfile = tempfile(fileext = ".txt")
@@ -44,7 +37,7 @@ ga_job_logs = function(owner, repo, job_id, ...) {
   } else {
     destfile = args$.destfile
   }
-  result = do.call(gh::gh, args = args)
+  result = do.call(gh_helper, args = args)
 }
 
 

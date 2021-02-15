@@ -22,7 +22,9 @@
 #' flow = ga_workflow("muschellij2", "pycwa", workflow_id)
 #' usage = ga_workflow_usage("muschellij2", "pycwa", workflow_id)
 #' }
-ga_workflow_list = function(owner, repo, page = NULL, per_page = NULL, ...) {
+ga_workflow_list = function(owner, repo = NULL,
+                            page = NULL,
+                            per_page = NULL, ...) {
   out = ensure_owner_repo(owner, repo)
   owner = out$owner
   repo = out$repo
@@ -43,7 +45,8 @@ ga_workflow_list = function(owner, repo, page = NULL, per_page = NULL, ...) {
 
 #' @rdname ga_workflows
 #' @export
-ga_workflow_runs = function(owner, repo, workflow_id, page = NULL, per_page = NULL, ...) {
+ga_workflow_runs = function(owner, repo = NULL, workflow_id,
+                            page = NULL, per_page = NULL, ...) {
   out = ensure_owner_repo(owner, repo)
   owner = out$owner
   repo = out$repo
@@ -66,58 +69,34 @@ ga_workflow_runs = function(owner, repo, workflow_id, page = NULL, per_page = NU
 
 #' @rdname ga_workflows
 #' @export
-ga_workflow = function(owner, repo, workflow_id, ...) {
-  out = ensure_owner_repo(owner, repo)
-  owner = out$owner
-  repo = out$repo
-  gh::gh(
-    glue::glue(
-      "GET /repos/{owner}/{repo}/actions/workflows/{workflow_id}",
-    ),
-    ...
-  )
+ga_workflow = function(owner, repo = NULL, workflow_id, ...) {
+  gh_helper(
+    endpoint = "GET /repos/{owner}/{repo}/actions/workflows/{workflow_id}",
+    owner = owner, repo = repo, workflow_id = workflow_id, ...)
 }
 
 #' @rdname ga_workflows
 #' @export
-ga_workflow_usage = function(owner, repo, workflow_id, ...) {
-  out = ensure_owner_repo(owner, repo)
-  owner = out$owner
-  repo = out$repo
-  gh::gh(
-    glue::glue(
-      "GET /repos/{owner}/{repo}/actions/workflows/{workflow_id}/timing",
-    ),
-    ...
-  )
+ga_workflow_usage = function(owner, repo = NULL, workflow_id, ...) {
+  gh_helper(
+    endpoint = "GET /repos/{owner}/{repo}/actions/workflows/{workflow_id}/timing",
+    owner = owner, repo = repo, workflow_id = workflow_id, ...)
 }
 
 #' @rdname ga_workflows
 #' @export
-ga_workflow_disable = function(owner, repo, workflow_id, ...) {
-  out = ensure_owner_repo(owner, repo)
-  owner = out$owner
-  repo = out$repo
-  gh::gh(
-    glue::glue(
-      "PUT /repos/{owner}/{repo}/actions/workflows/{workflow_id}/disable",
-    ),
-    ...
-  )
+ga_workflow_disable = function(owner, repo = NULL, workflow_id, ...) {
+  gh_helper(
+    endpoint = "PUT /repos/{owner}/{repo}/actions/workflows/{workflow_id}/disable",
+    owner = owner, repo = repo, workflow_id = workflow_id, ...)
 }
 
 #' @rdname ga_workflows
 #' @export
-ga_workflow_enable = function(owner, repo, workflow_id, ...) {
-  out = ensure_owner_repo(owner, repo)
-  owner = out$owner
-  repo = out$repo
-  gh::gh(
-    glue::glue(
-      "PUT /repos/{owner}/{repo}/actions/workflows/{workflow_id}/enable",
-    ),
-    ...
-  )
+ga_workflow_enable = function(owner, repo = NULL, workflow_id, ...) {
+  gh_helper(
+    endpoint = "PUT /repos/{owner}/{repo}/actions/workflows/{workflow_id}/enable",
+    owner = owner, repo = repo, workflow_id = workflow_id, ...)
 }
 
 

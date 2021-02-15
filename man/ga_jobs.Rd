@@ -5,9 +5,9 @@
 \alias{ga_job_logs}
 \title{GitHub jobs}
 \usage{
-ga_job(owner, repo, job_id, ...)
+ga_job(owner, repo = NULL, job_id, ...)
 
-ga_job_logs(owner, repo, job_id, ...)
+ga_job_logs(owner, repo = NULL, job_id, ...)
 }
 \arguments{
 \item{owner}{owner of repo/username}
@@ -29,5 +29,7 @@ GitHub jobs
 \examples{
 job_id = "1475662285"
 job_out = ga_job("muschellij2", "pycwa", job_id)
+job_out2 = ga_job("muschellij2/pycwa", job_id = job_id)
 job_log = ga_job_logs("muschellij2", "pycwa", job_id)
+job_log = ga_job_logs("muschellij2/pycwa", job_id = job_id)
 }

@@ -15,29 +15,29 @@
 \alias{ga_run_artifacts}
 \title{GitHub runs}
 \usage{
-ga_run_list(owner, repo, page = NULL, per_page = NULL, ...)
+ga_run_list(owner, repo = NULL, page = NULL, per_page = NULL, ...)
 
 ga_run_table(...)
 
-ga_run(owner, repo, run_id, ...)
+ga_run(owner, repo = NULL, run_id, ...)
 
-ga_run_delete(owner, repo, run_id, ...)
+ga_run_delete(owner, repo = NULL, run_id, ...)
 
-ga_run_cancel(owner, repo, run_id, ...)
+ga_run_cancel(owner, repo = NULL, run_id, ...)
 
-ga_run_download_log(owner, repo, run_id, ...)
+ga_run_download_log(owner, repo = NULL, run_id, ...)
 
-ga_run_delete_log(owner, repo, run_id, ...)
+ga_run_delete_log(owner, repo = NULL, run_id, ...)
 
-ga_run_rerun(owner, repo, run_id, ...)
+ga_run_rerun(owner, repo = NULL, run_id, ...)
 
-ga_run_usage(owner, repo, run_id, ...)
+ga_run_usage(owner, repo = NULL, run_id, ...)
 
-ga_run_jobs(owner, repo, run_id, page = NULL, per_page = NULL, ...)
+ga_run_jobs(owner, repo = NULL, run_id, page = NULL, per_page = NULL, ...)
 
 ga_run_jobs_table(...)
 
-ga_run_artifacts(owner, repo, run_id, page = NULL, per_page = NULL, ...)
+ga_run_artifacts(owner, repo = NULL, run_id, page = NULL, per_page = NULL, ...)
 }
 \arguments{
 \item{owner}{owner of repo/username}

@@ -7,13 +7,19 @@
 \alias{ga_artifact_download}
 \title{GitHub Artifacts}
 \usage{
-ga_artifact_list(owner, repo, page = NULL, per_page = NULL, ...)
+ga_artifact_list(owner, repo = NULL, page = NULL, per_page = NULL, ...)
 
-ga_artifact(owner, repo, artifact_id, ...)
+ga_artifact(owner, repo = NULL, artifact_id, ...)
 
-ga_artifact_delete(owner, repo, artifact_id, ...)
+ga_artifact_delete(owner, repo = NULL, artifact_id, ...)
 
-ga_artifact_download(owner, repo, artifact_id, archive_format = "zip", ...)
+ga_artifact_download(
+  owner,
+  repo = NULL,
+  artifact_id,
+  archive_format = "zip",
+  ...
+)
 }
 \arguments{
 \item{owner}{owner of repo/username}
@@ -40,6 +46,7 @@ GitHub Artifacts
 }
 \examples{
 a = ga_artifact_list("muschellij2", "pycwa")
+a = ga_artifact_list("muschellij2/pycwa")
 a
 a_id = a$artifacts[[1]]$id
 \dontrun{

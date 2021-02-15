@@ -9,17 +9,24 @@
 \alias{ga_workflow_enable}
 \title{GitHub Workflows}
 \usage{
-ga_workflow_list(owner, repo, page = NULL, per_page = NULL, ...)
+ga_workflow_list(owner, repo = NULL, page = NULL, per_page = NULL, ...)
 
-ga_workflow_runs(owner, repo, workflow_id, page = NULL, per_page = NULL, ...)
+ga_workflow_runs(
+  owner,
+  repo = NULL,
+  workflow_id,
+  page = NULL,
+  per_page = NULL,
+  ...
+)
 
-ga_workflow(owner, repo, workflow_id, ...)
+ga_workflow(owner, repo = NULL, workflow_id, ...)
 
-ga_workflow_usage(owner, repo, workflow_id, ...)
+ga_workflow_usage(owner, repo = NULL, workflow_id, ...)
 
-ga_workflow_disable(owner, repo, workflow_id, ...)
+ga_workflow_disable(owner, repo = NULL, workflow_id, ...)
 
-ga_workflow_enable(owner, repo, workflow_id, ...)
+ga_workflow_enable(owner, repo = NULL, workflow_id, ...)
 }
 \arguments{
 \item{owner}{owner of repo/username}

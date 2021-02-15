@@ -1,5 +1,6 @@
 ensure_owner_repo = function(owner, repo) {
-  if (missing(repo)) {
+  if (missing(repo) ||
+      is.null(repo)) {
     owner = strsplit(owner, "/")[[1]]
     repo = owner[[2]]
     owner = owner[[1]]
@@ -23,14 +24,18 @@ rerun_multiple_pages = function(first, page, args, run_list, extract_column = na
     for (page in run_pages) {
       args$page = page
       out[[extract_column]] = c(out[[extract_column]],
-                        do.call(run_list, args = args)[[extract_column]])
+                                do.call(run_list, args = args)[[extract_column]])
     }
     class(out) = c("gh_response", "list")
     if (length(out[[extract_column]]) != out$total_count) {
       warning("Total results is not equal to total count")
     }
+    attr(out, "owner") = args$owner
+    attr(out, "repo") = args$repo
     return(out)
   } else {
+    attr(first, "owner") = args$owner
+    attr(first, "repo") = args$repo
     return(first)
   }
 }
@@ -47,6 +52,8 @@ unlist_df = function(out) {
 }
 
 make_table = function(runs) {
+  owner = attr(runs, "owner")
+  repo = attr(runs, "repo")
   out = jsonlite::fromJSON(jsonlite::toJSON(runs[[2]]), flatten = TRUE)
   out = unlist_df(out)
 
@@ -60,5 +67,22 @@ make_table = function(runs) {
     out$steps = s
   }
   colnames(out) = gsub("[.]", "_", colnames(out))
+  attr(out, "owner") = owner
+  attr(out, "repo") = repo
+  out
+}
+
+gh_helper = function(endpoint, owner, repo, ...) {
+  out = ensure_owner_repo(owner, repo)
+  owner = out$owner
+  repo = out$repo
+  out = gh::gh(
+    endpoint,
+    owner = owner,
+    repo = repo,
+    ...
+  )
+  attr(out, "owner") = owner
+  attr(out, "repo") = repo
   out
 }

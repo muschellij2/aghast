@@ -25,7 +25,7 @@
 #' usage = ga_run_usage("muschellij2", "pycwa", run_id)
 #' run_artifacts = ga_run_artifacts("muschellij2", "pycwa", run_id)
 #' }
-ga_run_list = function(owner, repo, page = NULL, per_page = NULL, ...) {
+ga_run_list = function(owner, repo = NULL, page = NULL, per_page = NULL, ...) {
   out = ensure_owner_repo(owner, repo)
   owner = out$owner
   repo = out$repo
@@ -53,56 +53,33 @@ ga_run_table = function(...) {
 
 #' @rdname ga_runs
 #' @export
-ga_run = function(owner, repo, run_id, ...) {
-  out = ensure_owner_repo(owner, repo)
-  owner = out$owner
-  repo = out$repo
-  gh::gh(
-    glue::glue(
-      "GET /repos/{owner}/{repo}/actions/runs/{run_id}",
-    ),
-    ...
-  )
+ga_run = function(owner, repo = NULL, run_id, ...) {
+  gh_helper(endpoint = "GET /repos/{owner}/{repo}/actions/runs/{run_id}",
+            owner = owner, repo = repo, run_id = run_id, ...)
 }
 
 #' @rdname ga_runs
 #' @export
-ga_run_delete = function(owner, repo, run_id, ...) {
-  out = ensure_owner_repo(owner, repo)
-  owner = out$owner
-  repo = out$repo
-  gh::gh(
-    glue::glue(
-      "DELETE /repos/{owner}/{repo}/actions/runs/{run_id}",
-    ),
-    ...
-  )
+ga_run_delete = function(owner, repo = NULL, run_id, ...) {
+  gh_helper(endpoint = "DELETE /repos/{owner}/{repo}/actions/runs/{run_id}",
+            owner = owner, repo = repo, run_id = run_id, ...)
 }
 
 #' @rdname ga_runs
 #' @export
-ga_run_cancel = function(owner, repo, run_id, ...) {
-  out = ensure_owner_repo(owner, repo)
-  owner = out$owner
-  repo = out$repo
-  gh::gh(
-    glue::glue(
-      "POST /repos/{owner}/{repo}/actions/runs/{run_id}/cancel",
-    ),
-    ...
-  )
+ga_run_cancel = function(owner, repo = NULL, run_id, ...) {
+  gh_helper(endpoint ="POST /repos/{owner}/{repo}/actions/runs/{run_id}/cancel",
+            owner = owner, repo = repo, run_id = run_id, ...)
 }
 
 #' @rdname ga_runs
 #' @export
-ga_run_download_log = function(owner, repo, run_id, ...) {
-  out = ensure_owner_repo(owner, repo)
-  owner = out$owner
-  repo = out$repo
+ga_run_download_log = function(owner, repo = NULL, run_id, ...) {
   args = list(
-    glue::glue(
-      "GET /repos/{owner}/{repo}/actions/runs/{run_id}/logs",
-    ),
+    endpoint = "GET /repos/{owner}/{repo}/actions/runs/{run_id}/logs",
+    owner = owner,
+    repo = repo,
+    run_id = run_id,
     ...)
   if (!".destfile" %in% names(args)) {
     destfile = tempfile(fileext = ".zip")
@@ -110,56 +87,35 @@ ga_run_download_log = function(owner, repo, run_id, ...) {
   } else {
     destfile = args$.destfile
   }
-  result = do.call(gh::gh, args = args)
+  result = do.call(gh_helper, args = args)
 }
 
 
 #' @rdname ga_runs
 #' @export
-ga_run_delete_log = function(owner, repo, run_id, ...) {
-  out = ensure_owner_repo(owner, repo)
-  owner = out$owner
-  repo = out$repo
-  gh::gh(
-    glue::glue(
-      "DELETE /repos/{owner}/{repo}/actions/runs/{run_id}/logs",
-    ),
-    ...
-  )
+ga_run_delete_log = function(owner, repo = NULL, run_id, ...) {
+  gh_helper(endpoint = "DELETE /repos/{owner}/{repo}/actions/runs/{run_id}/logs",
+            owner = owner, repo = repo, run_id = run_id, ...)
 }
 
 #' @rdname ga_runs
 #' @export
-ga_run_rerun = function(owner, repo, run_id, ...) {
-  out = ensure_owner_repo(owner, repo)
-  owner = out$owner
-  repo = out$repo
-  gh::gh(
-    glue::glue(
-      "POST /repos/{owner}/{repo}/actions/runs/{run_id}/rerun",
-    ),
-    ...
-  )
+ga_run_rerun = function(owner, repo = NULL, run_id, ...) {
+  gh_helper(endpoint = "POST /repos/{owner}/{repo}/actions/runs/{run_id}/rerun",
+            owner = owner, repo = repo, run_id = run_id, ...)
 }
 
 
 #' @rdname ga_runs
 #' @export
-ga_run_usage = function(owner, repo, run_id, ...) {
-  out = ensure_owner_repo(owner, repo)
-  owner = out$owner
-  repo = out$repo
-  gh::gh(
-    glue::glue(
-      "GET /repos/{owner}/{repo}/actions/runs/{run_id}/timing",
-    ),
-    ...
-  )
+ga_run_usage = function(owner, repo = NULL, run_id, ...) {
+  gh_helper(endpoint = "GET /repos/{owner}/{repo}/actions/runs/{run_id}/timing",
+            owner = owner, repo = repo, run_id = run_id, ...)
 }
 
 #' @rdname ga_runs
 #' @export
-ga_run_jobs = function(owner, repo, run_id, page = NULL, per_page = NULL, ...) {
+ga_run_jobs = function(owner, repo = NULL, run_id, page = NULL, per_page = NULL, ...) {
   out = ensure_owner_repo(owner, repo)
   owner = out$owner
   repo = out$repo
@@ -189,7 +145,7 @@ ga_run_jobs_table = function(...) {
 
 #' @rdname ga_runs
 #' @export
-ga_run_artifacts = function(owner, repo, run_id, page = NULL, per_page = NULL, ...) {
+ga_run_artifacts = function(owner, repo = NULL, run_id, page = NULL, per_page = NULL, ...) {
   out = ensure_owner_repo(owner, repo)
   owner = out$owner
   repo = out$repo

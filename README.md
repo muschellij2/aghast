@@ -543,25 +543,26 @@ out$name
 if (requireNamespace("dplyr", quietly = TRUE)) {
   library(dplyr)
   out = out %>% 
-    dplyr::mutate(r_version = sub("\\((.*)\\)", "\\1", name),
+    dplyr::mutate(r_version = sub(".*\\((.*)\\)", "\\1", name),
            os = trimws(sub("\\(.*", "", name)))
   head(out %>% 
-         dplyr::select(job_id = id, run_id, name, r_version, os))
+         dplyr::select(job_id = id, run_id, name, r_version, os, completed_at))
 }
-#>       job_id    run_id                     name              r_version
-#> 1 1475662226 392215958   macOS-latest (release)   macOS-latest release
-#> 2 1475662260 392215958 windows-latest (release) windows-latest release
-#> 3 1475662285 392215958     windows-latest (3.6)     windows-latest 3.6
-#> 4 1475662309 392215958     ubuntu-16.04 (devel)     ubuntu-16.04 devel
-#> 5 1475662335 392215958   ubuntu-16.04 (release)   ubuntu-16.04 release
-#> 6 1475662371 392215958    ubuntu-16.04 (oldrel)    ubuntu-16.04 oldrel
-#>               os
-#> 1   macOS-latest
-#> 2 windows-latest
-#> 3 windows-latest
-#> 4   ubuntu-16.04
-#> 5   ubuntu-16.04
-#> 6   ubuntu-16.04
+#>       job_id    run_id                     name r_version             os
+#> 1 1475662226 392215958   macOS-latest (release)   release   macOS-latest
+#> 2 1475662260 392215958 windows-latest (release)   release windows-latest
+#> 3 1475662285 392215958     windows-latest (3.6)       3.6 windows-latest
+#> 4 1475662309 392215958     ubuntu-16.04 (devel)     devel   ubuntu-16.04
+#> 5 1475662335 392215958   ubuntu-16.04 (release)   release   ubuntu-16.04
+#> 6 1475662371 392215958    ubuntu-16.04 (oldrel)    oldrel   ubuntu-16.04
+#>           completed_at
+#> 1 2020-11-30T18:35:19Z
+#> 2 2020-11-30T18:38:44Z
+#> 3 2020-11-30T18:37:57Z
+#> 4 2020-11-30T18:32:52Z
+#> 5 2020-11-30T18:33:01Z
+#> 6 2020-11-30T18:32:16Z
+# ga_job_logs("muschellij2", "pycwa", out$id[1])
 ```
 
 Here is the
