@@ -35,7 +35,7 @@ ga_run_usage(owner, repo = NULL, run_id, ...)
 
 ga_run_jobs(owner, repo = NULL, run_id, page = NULL, per_page = NULL, ...)
 
-ga_run_jobs_table(...)
+ga_run_jobs_table(..., download_logs = FALSE)
 
 ga_run_artifacts(owner, repo = NULL, run_id, page = NULL, per_page = NULL, ...)
 }
@@ -51,6 +51,8 @@ ga_run_artifacts(owner, repo = NULL, run_id, page = NULL, per_page = NULL, ...)
 \item{...}{additional arguments to pass to \code{\link[gh:gh]{gh::gh()}}}
 
 \item{run_id}{identifier of run}
+
+\item{download_logs}{should the logs be downloaded for each job?}
 }
 \value{
 Answer from the API as a \code{ga_response} object, which is also a list.

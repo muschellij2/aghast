@@ -1,6 +1,7 @@
 #' Extract Log Configuration
 #'
 #' @param zipfile Log zip file from [ga_run_download_log]
+#' @param make_data_frame Make it into a `data.frame`
 #'
 #' @return A list of character vectors
 #' @export
@@ -10,7 +11,10 @@
 #' config = ga_run_log_config(zipfile)
 #' zipfile = ga_run_download_log("muschellij2", "pycwa",  "392215958")
 #'
-ga_run_log_config = function(zipfile) {
+ga_run_log_config = function(zipfile, make_data_frame = FALSE) {
+  out = step = value = NULL
+  rm(list = c("out", "step", "value"))
+
   files = utils::unzip(zipfile, list = TRUE)
   files = files[ grepl(".txt$", files$Name) & grepl("/", files$Name),]
   files = files[order(files$Name),]
@@ -45,6 +49,18 @@ ga_run_log_config = function(zipfile) {
     out
   })
   names(out) = files$Name
+  if (make_data_frame) {
+    out = lapply(out, function(x) {
+      x = lapply(x, function(r) {
+        tibble::tibble(row = seq_len(length(r)),
+                       value = r)
+      })
+      dplyr::bind_rows(x, .id = "step")
+    })
+    out = dplyr::bind_rows(out, .id = "name")
+    out$name = dirname(out$name)
+    out = tidyr::nest(out, config = c(step, row, value))
+  }
   out
 }
 

@@ -4,10 +4,12 @@
 \alias{ga_run_log_config}
 \title{Extract Log Configuration}
 \usage{
-ga_run_log_config(zipfile)
+ga_run_log_config(zipfile, make_data_frame = FALSE)
 }
 \arguments{
 \item{zipfile}{Log zip file from \link{ga_run_download_log}}
+
+\item{make_data_frame}{Make it into a \code{data.frame}}
 }
 \value{
 A list of character vectors

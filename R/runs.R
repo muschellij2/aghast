@@ -146,10 +146,20 @@ ga_run_jobs = function(owner, repo = NULL, run_id, page = NULL, per_page = NULL,
 
 
 #' @rdname ga_runs
+#' @param download_logs should the logs be downloaded for each job?
 #' @export
-ga_run_jobs_table = function(...) {
+ga_run_jobs_table = function(..., download_logs = FALSE) {
   runs = ga_run_jobs(...)
-  make_table(runs)
+  runs = make_table(runs)
+  if (download_logs) {
+    runs$log = sapply(runs$id, function(id) {
+      ga_job_logs(
+        attr(runs, "owner"),
+        attr(runs, "repo"),
+        job_id = id)
+    })
+  }
+  runs
 }
 
 
