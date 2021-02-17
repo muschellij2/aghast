@@ -48,6 +48,12 @@ names(runs$workflow_runs[[1]])
 
 runs = ga_run_table("muschellij2", "pycwa")
 run_id = runs$id[1]
+art = ga_run_artifacts(attr(runs, "owner"), attr(runs, "repo"), run_id)
+art
+#> {
+#>   "total_count": 0,
+#>   "artifacts": []
+#> }
 run_id
 #> [1] 392215958
 out = ga_run_jobs_table("muschellij2", "pycwa", run_id, download_logs = TRUE)
@@ -56,17 +62,18 @@ head(out$name)
 #> [3] "windows-latest (3.6)"     "ubuntu-16.04 (devel)"    
 #> [5] "ubuntu-16.04 (release)"   "ubuntu-16.04 (oldrel)"
 head(out$log)
-#> [1] "/var/folders/1s/wrtqcpxn685_zk570bnx9_rr0000gr/T//RtmpJ5OKIx/file11a8d1b19d5fc.txt"
-#> [2] "/var/folders/1s/wrtqcpxn685_zk570bnx9_rr0000gr/T//RtmpJ5OKIx/file11a8d3d2fa14a.txt"
-#> [3] "/var/folders/1s/wrtqcpxn685_zk570bnx9_rr0000gr/T//RtmpJ5OKIx/file11a8d20620a8.txt" 
-#> [4] "/var/folders/1s/wrtqcpxn685_zk570bnx9_rr0000gr/T//RtmpJ5OKIx/file11a8d6049f6a1.txt"
-#> [5] "/var/folders/1s/wrtqcpxn685_zk570bnx9_rr0000gr/T//RtmpJ5OKIx/file11a8d17def56a.txt"
-#> [6] "/var/folders/1s/wrtqcpxn685_zk570bnx9_rr0000gr/T//RtmpJ5OKIx/file11a8d2ec20e64.txt"
+#> [1] "/var/folders/1s/wrtqcpxn685_zk570bnx9_rr0000gr/T//RtmpLaumGv/filea793881ac02.txt"
+#> [2] "/var/folders/1s/wrtqcpxn685_zk570bnx9_rr0000gr/T//RtmpLaumGv/filea794943d449.txt"
+#> [3] "/var/folders/1s/wrtqcpxn685_zk570bnx9_rr0000gr/T//RtmpLaumGv/filea794262a33.txt" 
+#> [4] "/var/folders/1s/wrtqcpxn685_zk570bnx9_rr0000gr/T//RtmpLaumGv/filea79659c7c65.txt"
+#> [5] "/var/folders/1s/wrtqcpxn685_zk570bnx9_rr0000gr/T//RtmpLaumGv/filea794aaff01.txt" 
+#> [6] "/var/folders/1s/wrtqcpxn685_zk570bnx9_rr0000gr/T//RtmpLaumGv/filea79764b9d0b.txt"
 
 log = ga_run_download_log(
   attr(out, "owner"), 
   repo = attr(out, "repo"), 
   run_id = run_id)
+# use name of thing somewhere in config output
 config = ga_run_log_config(log, make_data_frame = TRUE)
 
 if (requireNamespace("dplyr", quietly = TRUE)) {

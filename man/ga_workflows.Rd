@@ -3,6 +3,7 @@
 \name{ga_workflow_list}
 \alias{ga_workflow_list}
 \alias{ga_workflow_runs}
+\alias{ga_workflow_runs_table}
 \alias{ga_workflow}
 \alias{ga_workflow_usage}
 \alias{ga_workflow_disable}
@@ -19,6 +20,8 @@ ga_workflow_runs(
   per_page = NULL,
   ...
 )
+
+ga_workflow_runs_table(...)
 
 ga_workflow(owner, repo = NULL, workflow_id, ...)
 

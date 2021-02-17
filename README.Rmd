@@ -46,6 +46,8 @@ names(runs$workflow_runs[[1]])
 
 runs = ga_run_table("muschellij2", "pycwa")
 run_id = runs$id[1]
+art = ga_run_artifacts(attr(runs, "owner"), attr(runs, "repo"), run_id)
+art
 run_id
 out = ga_run_jobs_table("muschellij2", "pycwa", run_id, download_logs = TRUE)
 head(out$name)
@@ -55,6 +57,7 @@ log = ga_run_download_log(
   attr(out, "owner"), 
   repo = attr(out, "repo"), 
   run_id = run_id)
+# use name of thing somewhere in config output
 config = ga_run_log_config(log, make_data_frame = TRUE)
 
 if (requireNamespace("dplyr", quietly = TRUE)) {

@@ -15,7 +15,7 @@
 #' @rdname ga_artifacts
 #' @examples
 #' a = ga_artifact_list("muschellij2", "pycwa")
-#' a = ga_artifact_list("muschellij2/pycwa")
+#' tab = ga_artifact_table("muschellij2/pycwa")
 #' a
 #' a_id = a$artifacts[[1]]$id
 #' \donttest{
@@ -43,6 +43,14 @@ ga_artifact_list = function(owner, repo = NULL, page = NULL, per_page = NULL, ..
   # args = list(owner, repo, page = page, per_page = per_page, ...)
   # first = do.call(run_list, args = args)
   # rerun_multiple_pages(first, page, args, run_list, extract_column = "artifacts")
+}
+
+#' @rdname ga_artifacts
+#' @export
+ga_artifact_table = function(...) {
+  runs = ga_artifact_list(...)
+  runs = make_table(runs)
+  runs
 }
 
 #' @rdname ga_artifacts

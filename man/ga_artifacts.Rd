@@ -2,12 +2,15 @@
 % Please edit documentation in R/artifacts.R
 \name{ga_artifact_list}
 \alias{ga_artifact_list}
+\alias{ga_artifact_table}
 \alias{ga_artifact}
 \alias{ga_artifact_delete}
 \alias{ga_artifact_download}
 \title{GitHub Artifacts}
 \usage{
 ga_artifact_list(owner, repo = NULL, page = NULL, per_page = NULL, ...)
+
+ga_artifact_table(...)
 
 ga_artifact(owner, repo = NULL, artifact_id, ...)
 
@@ -46,7 +49,7 @@ GitHub Artifacts
 }
 \examples{
 a = ga_artifact_list("muschellij2", "pycwa")
-a = ga_artifact_list("muschellij2/pycwa")
+tab = ga_artifact_table("muschellij2/pycwa")
 a
 a_id = a$artifacts[[1]]$id
 \donttest{

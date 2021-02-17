@@ -76,6 +76,15 @@ ga_workflow_runs = function(owner, repo = NULL, workflow_id,
 }
 
 
+#' @rdname ga_workflows
+#' @export
+ga_workflow_runs_table = function(...) {
+  out = ga_workflow_runs(...)
+  out = make_table(out)
+  return(out)
+}
+
+
 
 #' @rdname ga_workflows
 #' @export

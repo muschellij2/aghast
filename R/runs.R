@@ -19,6 +19,7 @@
 #' tab$head_sha
 #' run_id = runs$workflow_runs[[1]]$id
 #' \donttest{
+#' tab = ga_run_table("muschellij2/pycwa@a9cd1b25ba80a17fb5085f165962785f70590565")
 #' run = ga_run("muschellij2", "pycwa", run_id)
 #' run_jobs = ga_run_jobs("muschellij2", "pycwa", run_id)
 #' run_log = ga_run_download_log("muschellij2", "pycwa", run_id)
@@ -26,9 +27,10 @@
 #' run_artifacts = ga_run_artifacts("muschellij2", "pycwa", run_id)
 #' }
 ga_run_list = function(owner, repo = NULL, page = NULL, per_page = NULL, ...) {
-  out = gh_helper(endpoint =  "GET /repos/{owner}/{repo}/actions/runs",
-                  owner = owner, repo = repo,
-                  per_page = per_page, page = page, ...)
+  out = gh_helper(
+    endpoint =  "GET /repos/{owner}/{repo}/actions/runs",
+    owner = owner, repo = repo,
+    per_page = per_page, page = page, ...)
   return(out)
   # out = ensure_owner_repo(owner, repo)
   # owner = out$owner
@@ -50,30 +52,43 @@ ga_run_list = function(owner, repo = NULL, page = NULL, per_page = NULL, ...) {
 
 #' @rdname ga_runs
 #' @export
-ga_run_table = function(...) {
-  runs = ga_run_list(...)
-  make_table(runs)
+ga_run_table = function(..., sha = NULL) {
+  runs = ga_run_list(..., sha = sha)
+  runs = make_table(runs)
+  sha = attr(runs, "sha")
+  if (!is.null(sha)) {
+    row = which(runs$head_sha == sha)
+    if (length(row) == 0) {
+      warning("sha passed to ga_run_table, but no rows found, returning NULL")
+      return(NULL)
+    }
+    runs = runs[row,]
+  }
+  runs
 }
 
 #' @rdname ga_runs
 #' @export
 ga_run = function(owner, repo = NULL, run_id, ...) {
-  gh_helper(endpoint = "GET /repos/{owner}/{repo}/actions/runs/{run_id}",
-            owner = owner, repo = repo, run_id = run_id, ...)
+  gh_helper(
+    endpoint = "GET /repos/{owner}/{repo}/actions/runs/{run_id}",
+    owner = owner, repo = repo, run_id = run_id, ...)
 }
 
 #' @rdname ga_runs
 #' @export
 ga_run_delete = function(owner, repo = NULL, run_id, ...) {
-  gh_helper(endpoint = "DELETE /repos/{owner}/{repo}/actions/runs/{run_id}",
-            owner = owner, repo = repo, run_id = run_id, ...)
+  gh_helper(
+    endpoint = "DELETE /repos/{owner}/{repo}/actions/runs/{run_id}",
+    owner = owner, repo = repo, run_id = run_id, ...)
 }
 
 #' @rdname ga_runs
 #' @export
 ga_run_cancel = function(owner, repo = NULL, run_id, ...) {
-  gh_helper(endpoint ="POST /repos/{owner}/{repo}/actions/runs/{run_id}/cancel",
-            owner = owner, repo = repo, run_id = run_id, ...)
+  gh_helper(
+    endpoint = "POST /repos/{owner}/{repo}/actions/runs/{run_id}/cancel",
+    owner = owner, repo = repo, run_id = run_id, ...)
 }
 
 #' @rdname ga_runs
@@ -92,6 +107,42 @@ ga_run_download_log = function(owner, repo = NULL, run_id, ...) {
     destfile = args$.destfile
   }
   result = do.call(gh_helper, args = args)
+}
+
+#' @rdname ga_runs
+#' @param sha commit ID sha to cross reference for runs.
+#' @export
+ga_sha_download_log = function(owner, repo = NULL, sha = NULL, ...) {
+  # list the runs
+  # match the sha
+  # fail if not found
+  # warn if multiple found
+  # parse into list
+  # give back result
+  out = ensure_owner_repo(owner, repo, sha)
+  sha = out$sha
+  stopifnot(!is.null(sha))
+  runs = ga_run_table(owner, repo, ...)
+  row = which(runs$head_sha == sha)
+  if (length(row) == 0) {
+    warning("No records were found, returning NULL")
+    return(NULL)
+  }
+  if (length(row) > 1) {
+    warning("Multiple runs were found - returning a list of them")
+  }
+  out = lapply(row, function(index) {
+    itab = runs[index,]
+    run_id = itab$id
+    run_log = ga_run_download_log(
+      itab$repository_owner_login,
+      itab$repository_name,
+      run_id)
+  })
+  if (length(out) == 1) {
+    out = out[[1]]
+  }
+  out
 }
 
 
@@ -154,8 +205,8 @@ ga_run_jobs_table = function(..., download_logs = FALSE) {
   if (download_logs) {
     runs$log = sapply(runs$id, function(id) {
       ga_job_logs(
-        attr(runs, "owner"),
-        attr(runs, "repo"),
+        attr(runs, "owner")[1],
+        attr(runs, "repo")[1],
         job_id = id)
     })
   }

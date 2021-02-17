@@ -7,6 +7,7 @@
 \alias{ga_run_delete}
 \alias{ga_run_cancel}
 \alias{ga_run_download_log}
+\alias{ga_sha_download_log}
 \alias{ga_run_delete_log}
 \alias{ga_run_rerun}
 \alias{ga_run_usage}
@@ -17,7 +18,7 @@
 \usage{
 ga_run_list(owner, repo = NULL, page = NULL, per_page = NULL, ...)
 
-ga_run_table(...)
+ga_run_table(..., sha = NULL)
 
 ga_run(owner, repo = NULL, run_id, ...)
 
@@ -26,6 +27,8 @@ ga_run_delete(owner, repo = NULL, run_id, ...)
 ga_run_cancel(owner, repo = NULL, run_id, ...)
 
 ga_run_download_log(owner, repo = NULL, run_id, ...)
+
+ga_sha_download_log(owner, repo = NULL, sha = NULL, ...)
 
 ga_run_delete_log(owner, repo = NULL, run_id, ...)
 
@@ -50,6 +53,8 @@ ga_run_artifacts(owner, repo = NULL, run_id, page = NULL, per_page = NULL, ...)
 
 \item{...}{additional arguments to pass to \code{\link[gh:gh]{gh::gh()}}}
 
+\item{sha}{commit ID sha to cross reference for runs.}
+
 \item{run_id}{identifier of run}
 
 \item{download_logs}{should the logs be downloaded for each job?}
@@ -68,6 +73,7 @@ tab = ga_run_table("muschellij2", "pycwa")
 tab$head_sha
 run_id = runs$workflow_runs[[1]]$id
 \donttest{
+tab = ga_run_table("muschellij2/pycwa@a9cd1b25ba80a17fb5085f165962785f70590565")
 run = ga_run("muschellij2", "pycwa", run_id)
 run_jobs = ga_run_jobs("muschellij2", "pycwa", run_id)
 run_log = ga_run_download_log("muschellij2", "pycwa", run_id)
