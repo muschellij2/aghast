@@ -119,3 +119,12 @@ ga_workflow_enable = function(owner, repo = NULL, workflow_id, ...) {
 }
 
 
+
+#' @rdname ga_workflows
+#' @export
+#' @param ref The git reference for the workflow. The reference can be a branch or tag name.
+ga_workflow_dispatch = function(owner, repo = NULL, workflow_id, ref, ...) {
+  gh_helper(
+    endpoint = "POST /repos/{owner}/{repo}/actions/workflows/{workflow_id}/dispatches",
+    owner = owner, repo = repo, workflow_id = workflow_id, ref = ref, add_limit = FALSE, ...)
+}

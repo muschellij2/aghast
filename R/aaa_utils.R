@@ -91,7 +91,7 @@ make_character = function(x) {
   }
   x
 }
-gh_helper = function(endpoint, owner, repo, ...) {
+gh_helper = function(endpoint, owner, repo, add_limit = TRUE, ...) {
   sha = list(...)$sha
   out = ensure_owner_repo(owner, repo, sha = sha)
   owner = out$owner
@@ -108,7 +108,8 @@ gh_helper = function(endpoint, owner, repo, ...) {
   args$workflow_id = make_character(args$workflow_id)
 
   if (!".limit" %in% names(args) &&
-      is.null(args$page)) {
+      is.null(args$page) &&
+      add_limit) {
     args$.limit = Inf
   }
   out = do.call(gh::gh, args = args)

@@ -8,6 +8,7 @@
 \alias{ga_workflow_usage}
 \alias{ga_workflow_disable}
 \alias{ga_workflow_enable}
+\alias{ga_workflow_dispatch}
 \title{GitHub Workflows}
 \usage{
 ga_workflow_list(owner, repo = NULL, page = NULL, per_page = NULL, ...)
@@ -30,6 +31,8 @@ ga_workflow_usage(owner, repo = NULL, workflow_id, ...)
 ga_workflow_disable(owner, repo = NULL, workflow_id, ...)
 
 ga_workflow_enable(owner, repo = NULL, workflow_id, ...)
+
+ga_workflow_dispatch(owner, repo = NULL, workflow_id, ref, ...)
 }
 \arguments{
 \item{owner}{owner of repo/username}
@@ -43,6 +46,8 @@ ga_workflow_enable(owner, repo = NULL, workflow_id, ...)
 \item{...}{additional arguments to pass to \code{\link[gh:gh]{gh::gh()}}}
 
 \item{workflow_id}{identifier of workflow}
+
+\item{ref}{The git reference for the workflow. The reference can be a branch or tag name.}
 }
 \value{
 Answer from the API as a \code{ga_response} object, which is also a list.
