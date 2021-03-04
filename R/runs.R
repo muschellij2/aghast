@@ -22,7 +22,9 @@
 #' tab = ga_run_table("muschellij2/pycwa@a9cd1b25ba80a17fb5085f165962785f70590565")
 #' run = ga_run("muschellij2", "pycwa", run_id)
 #' run_jobs = ga_run_jobs("muschellij2", "pycwa", run_id)
+#' if (difftime(Sys.time(), as.POSIXct(tab$created_at), "days")<= 90) {
 #' run_log = ga_run_download_log("muschellij2", "pycwa", run_id)
+#' }
 #' usage = ga_run_usage("muschellij2", "pycwa", run_id)
 #' run_artifacts = ga_run_artifacts("muschellij2", "pycwa", run_id)
 #' }
