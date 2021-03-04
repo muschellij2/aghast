@@ -66,7 +66,7 @@ ga_run_table = function(..., sha = NULL, name = NULL) {
     runs = runs[row,]
   }
   if (!is.null(name)) {
-    row = which(runs$name == sha)
+    row = which(runs$name == name)
     if (length(row) == 0) {
       warning("name passed to ga_run_table, but no rows found, returning NULL")
       return(NULL)
