@@ -12,12 +12,15 @@
 #'
 #' @rdname ga_jobs
 #' @examples
-#' job_id = "1475662285"
-#' job_out = ga_job("muschellij2", "pycwa", job_id)
-#' job_out2 = ga_job("muschellij2/pycwa", job_id = job_id)
-#' if (difftime(Sys.time(), as.POSIXct(job_out$completed_at), "days")<= 90) {
-#' job_log = ga_job_logs("muschellij2", "pycwa", job_id)
-#' job_log = ga_job_logs("muschellij2/pycwa", job_id = job_id)
+#' have_token = length(gh::gh_token()) > 0
+#' if (have_token) {
+#'   job_id = "1475662285"
+#'   job_out = ga_job("muschellij2", "pycwa", job_id)
+#'   job_out2 = ga_job("muschellij2/pycwa", job_id = job_id)
+#'   if (difftime(Sys.time(), as.POSIXct(job_out$completed_at), "days")<= 90) {
+#'     job_log = ga_job_logs("muschellij2", "pycwa", job_id)
+#'     job_log = ga_job_logs("muschellij2/pycwa", job_id = job_id)
+#'   }
 #' }
 ga_job = function(owner, repo = NULL, job_id, ...) {
   gh_helper(endpoint =  "GET /repos/{owner}/{repo}/actions/jobs/{job_id}",

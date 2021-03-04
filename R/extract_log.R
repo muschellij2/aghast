@@ -7,14 +7,17 @@
 #' @export
 #'
 #' @examples
-#' run = ga_run("r-lib", "actions",  "551409765")
-#' if (difftime(Sys.time(), as.POSIXct(run$created_at), "days")<= 90) {
-#' zipfile = ga_run_download_log("r-lib", "actions",  "551409765")
-#' config = ga_run_log_config(zipfile)
-#' }
-#' run = ga_run("muschellij2", "pycwa",  "392215958")
-#' if (difftime(Sys.time(), as.POSIXct(run$created_at), "days")<= 90) {
-#' zipfile = ga_run_download_log("muschellij2", "pycwa",  "392215958")
+#' have_token = length(gh::gh_token()) > 0
+#' if (have_token) {
+#'   run = ga_run("r-lib", "actions",  "551409765")
+#'   if (difftime(Sys.time(), as.POSIXct(run$created_at), "days")<= 90) {
+#'     zipfile = ga_run_download_log("r-lib", "actions",  "551409765")
+#'     config = ga_run_log_config(zipfile)
+#'   }
+#'   run = ga_run("muschellij2", "pycwa",  "392215958")
+#'   if (difftime(Sys.time(), as.POSIXct(run$created_at), "days")<= 90) {
+#'     zipfile = ga_run_download_log("muschellij2", "pycwa",  "392215958")
+#'   }
 #' }
 #'
 ga_run_log_config = function(zipfile, make_data_frame = FALSE) {

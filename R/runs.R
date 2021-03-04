@@ -14,19 +14,24 @@
 #'
 #' @rdname ga_runs
 #' @examples
-#' runs = ga_run_list("muschellij2", "pycwa")
-#' tab = ga_run_table("muschellij2", "pycwa")
-#' tab$head_sha
-#' run_id = runs$workflow_runs[[1]]$id
-#' \donttest{
-#' tab = ga_run_table("muschellij2/pycwa@a9cd1b25ba80a17fb5085f165962785f70590565")
-#' run = ga_run("muschellij2", "pycwa", run_id)
-#' run_jobs = ga_run_jobs("muschellij2", "pycwa", run_id)
-#' if (difftime(Sys.time(), as.POSIXct(tab$created_at), "days")<= 90) {
-#' run_log = ga_run_download_log("muschellij2", "pycwa", run_id)
+#' have_token = length(gh::gh_token()) > 0
+#' if (have_token) {
+#'   runs = ga_run_list("muschellij2", "pycwa")
+#'   tab = ga_run_table("muschellij2", "pycwa")
+#'   tab$head_sha
+#'   run_id = runs$workflow_runs[[1]]$id
 #' }
-#' usage = ga_run_usage("muschellij2", "pycwa", run_id)
-#' run_artifacts = ga_run_artifacts("muschellij2", "pycwa", run_id)
+#' \donttest{
+#' if (have_token) {
+#'   tab = ga_run_table("muschellij2/pycwa@a9cd1b25ba80a17fb5085f165962785f70590565")
+#'   run = ga_run("muschellij2", "pycwa", run_id)
+#'   run_jobs = ga_run_jobs("muschellij2", "pycwa", run_id)
+#'   if (difftime(Sys.time(), as.POSIXct(tab$created_at), "days")<= 90) {
+#'     run_log = ga_run_download_log("muschellij2", "pycwa", run_id)
+#'   }
+#'   usage = ga_run_usage("muschellij2", "pycwa", run_id)
+#'   run_artifacts = ga_run_artifacts("muschellij2", "pycwa", run_id)
+#' }
 #' }
 ga_run_list = function(owner, repo = NULL, page = NULL, per_page = NULL, ...) {
   out = gh_helper(
@@ -214,12 +219,28 @@ ga_run_jobs_table = function(..., download_logs = FALSE) {
   runs = ga_run_jobs(...)
   runs = make_table(runs)
   if (download_logs) {
-    runs$log = sapply(runs$id, function(id) {
-      ga_job_logs(
-        attr(runs, "owner")[1],
-        attr(runs, "repo")[1],
-        job_id = id)
-    })
+    runs$log = mapply(function(id, time) {
+      time = as.POSIXct(time)
+      within_90 = try({difftime(Sys.time(), time, units = "days") <= 90})
+      if (inherits(within_90, "try-error")) {
+        within_90 = TRUE
+      }
+      out = try({
+        ga_job_logs(
+          attr(runs, "owner")[1],
+          attr(runs, "repo")[1],
+          job_id = id)
+      }, silent = TRUE)
+      if (inherits(out, "try-error")) {
+        warning(
+          paste0("id ", id, " log cannot be downloaded",
+                 if (!within_90) ", over 90 days",
+                 "\n")
+          )
+        out = NA
+      }
+      out
+    }, runs$id, runs$completed_at, SIMPLIFY = TRUE)
   }
   runs
 }

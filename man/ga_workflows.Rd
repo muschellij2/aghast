@@ -58,12 +58,17 @@ Requests that generate a raw response will return a raw vector.
 GitHub Workflows
 }
 \examples{
-w = ga_workflow_list("muschellij2/pycwa", page = 1)
-w = ga_workflow_list("muschellij2", "pycwa")
-workflow_id = w$workflows[[1]]$id
+have_token = length(gh::gh_token()) > 0
+if (have_token) {
+  w = ga_workflow_list("muschellij2/pycwa", page = 1)
+  w = ga_workflow_list("muschellij2", "pycwa")
+  workflow_id = w$workflows[[1]]$id
+}
 \donttest{
-runs = ga_workflow_runs("muschellij2", "pycwa", workflow_id)
-flow = ga_workflow("muschellij2", "pycwa", workflow_id)
-usage = ga_workflow_usage("muschellij2", "pycwa", workflow_id)
+if (have_token) {
+  runs = ga_workflow_runs("muschellij2", "pycwa", workflow_id)
+  flow = ga_workflow("muschellij2", "pycwa", workflow_id)
+  usage = ga_workflow_usage("muschellij2", "pycwa", workflow_id)
+}
 }
 }

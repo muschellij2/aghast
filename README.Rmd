@@ -41,55 +41,72 @@ List a number of runs:
 
 ```{r example}
 library(aghast)
-runs = ga_run_list("muschellij2", "pycwa")
-names(runs$workflow_runs[[1]])
-
-runs = ga_run_table("muschellij2", "pycwa")
-run_id = runs$id[1]
-art = ga_run_artifacts(attr(runs, "owner"), attr(runs, "repo"), run_id)
-art
-run_id
-out = ga_run_jobs_table("muschellij2", "pycwa", run_id, download_logs = TRUE)
-head(out$name)
-head(out$log)
-
-log = ga_run_download_log(
-  attr(out, "owner"), 
-  repo = attr(out, "repo"), 
-  run_id = run_id)
-# use name of thing somewhere in config output
-config = ga_run_log_config(log, make_data_frame = TRUE)
-
-if (requireNamespace("dplyr", quietly = TRUE)) {
-  library(dplyr)
-  out = dplyr::full_join(config, out)
-  out = out %>% 
-    dplyr::mutate(r_version = sub(".*\\((.*)\\)", "\\1", name),
-                  os = trimws(sub("\\(.*", "", name)))
-  head(out %>% 
-         dplyr::select(job_id = id, run_id, name, r_version, os, completed_at))
+have_token = length(gh::gh_token()) > 0
+if (have_token) {
+  runs = ga_run_list("muschellij2", "pycwa")
+  names(runs$workflow_runs[[1]])
+  
+  runs = ga_run_table("muschellij2", "pycwa")
+  runs = runs[order(as.POSIXct(runs$created_at), decreasing = TRUE), ]
+  run_id = runs$id[1]
+  art = ga_run_artifacts(attr(runs, "owner"), attr(runs, "repo"), run_id)
+  art
+  run_id
+  out = ga_run_jobs_table("muschellij2", "pycwa", run_id, download_logs = TRUE)
+  head(out$name)
+  head(out$log)
+  
+  time = as.POSIXct(runs$created_at[1])
+  within_90 = difftime(Sys.time(), time, units = "days") <= 90
+  if (within_90) {
+    log = ga_run_download_log(
+      attr(out, "owner"), 
+      repo = attr(out, "repo"), 
+      run_id = run_id)
+    # use name of thing somewhere in config output
+    config = ga_run_log_config(log, make_data_frame = TRUE)
+    
+    
+    if (requireNamespace("dplyr", quietly = TRUE)) {
+      library(dplyr)
+      out = dplyr::full_join(config, out)
+      out = out %>% 
+        dplyr::mutate(r_version = sub(".*\\((.*)\\)", "\\1", name),
+                      os = trimws(sub("\\(.*", "", name)))
+      head(out %>% 
+             dplyr::select(job_id = id, run_id, name, r_version, os, completed_at))
+    }
+  }
 }
 # ga_job_logs("muschellij2", "pycwa", out$id[1])
 ```
 
 Here is the 
 ```{r}
-find_sha = "f2e0935fb4623b6432c177590bcfb7d13a09767f"
-tab = ga_run_table("r-lib", "actions", page = 1)
-row = which(tab$head_sha == find_sha)[1]
-itab = tab[row,]
-run_id = itab$id
-run_log = ga_run_download_log(itab$repository_owner_login,
-                              itab$repository_name, 
-                              run_id)
-config = ga_run_log_config(run_log)
-config$`macOS-latest (release)/3_Run r-libactionssetup-r@master.txt`
+if (have_token) {
+  find_sha = "f2e0935fb4623b6432c177590bcfb7d13a09767f"
+  tab = ga_run_table("r-lib", "actions")
+  row = which(tab$head_sha == find_sha)[1]
+  itab = tab[row,]
+  run_id = itab$id
+  time = as.POSIXct(itab$created_at)
+  within_90 = difftime(Sys.time(), time, units = "days") <= 90
+  if (within_90) {
+    run_log = ga_run_download_log(itab$repository_owner_login,
+                                  itab$repository_name, 
+                                  run_id)
+    config = ga_run_log_config(run_log)
+    config$`macOS-latest (release)/3_Run r-libactionssetup-r@master.txt`
+  }
+}
 ```
 
 ```{r}
-jobs = ga_run_jobs_table(itab$repository_owner_login,
-                         itab$repository_name, 
-                         run_id = run_id)
-head(jobs[, !colnames(jobs) %in% "steps"])
-head(jobs$steps[[1]])
+if (have_token) {
+  jobs = ga_run_jobs_table(itab$repository_owner_login,
+                           itab$repository_name, 
+                           run_id = run_id)
+  head(jobs[, !colnames(jobs) %in% "steps"])
+  head(jobs$steps[[1]])
+}
 ```
