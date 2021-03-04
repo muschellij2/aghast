@@ -51,8 +51,9 @@ ga_run_list = function(owner, repo = NULL, page = NULL, per_page = NULL, ...) {
 }
 
 #' @rdname ga_runs
+#' @param name name of the workflow
 #' @export
-ga_run_table = function(..., sha = NULL) {
+ga_run_table = function(..., sha = NULL, name = NULL) {
   runs = ga_run_list(..., sha = sha)
   runs = make_table(runs)
   sha = attr(runs, "sha")
@@ -60,6 +61,14 @@ ga_run_table = function(..., sha = NULL) {
     row = which(runs$head_sha == sha)
     if (length(row) == 0) {
       warning("sha passed to ga_run_table, but no rows found, returning NULL")
+      return(NULL)
+    }
+    runs = runs[row,]
+  }
+  if (!is.null(name)) {
+    row = which(runs$name == sha)
+    if (length(row) == 0) {
+      warning("name passed to ga_run_table, but no rows found, returning NULL")
       return(NULL)
     }
     runs = runs[row,]

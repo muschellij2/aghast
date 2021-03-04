@@ -18,7 +18,7 @@
 \usage{
 ga_run_list(owner, repo = NULL, page = NULL, per_page = NULL, ...)
 
-ga_run_table(..., sha = NULL)
+ga_run_table(..., sha = NULL, name = NULL)
 
 ga_run(owner, repo = NULL, run_id, ...)
 
@@ -54,6 +54,8 @@ ga_run_artifacts(owner, repo = NULL, run_id, page = NULL, per_page = NULL, ...)
 \item{...}{additional arguments to pass to \code{\link[gh:gh]{gh::gh()}}}
 
 \item{sha}{commit ID sha to cross reference for runs.}
+
+\item{name}{name of the workflow}
 
 \item{run_id}{identifier of run}
 
