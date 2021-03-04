@@ -128,3 +128,11 @@ ga_workflow_dispatch = function(owner, repo = NULL, workflow_id, ref, ...) {
     endpoint = "POST /repos/{owner}/{repo}/actions/workflows/{workflow_id}/dispatches",
     owner = owner, repo = repo, workflow_id = workflow_id, ref = ref, add_limit = FALSE, ...)
 }
+
+#' @rdname ga_workflows
+#' @export
+ga_workflow_rerun = function(owner, repo=NULL, workflow_id, ...) {
+  gh_helper(
+    endpoint = "POST /repos/{owner}/{repo}/actions/runs/{workflow_id}/rerun",
+    owner = owner, repo = repo, workflow_id = workflow_id, add_limit = FALSE, ...)
+}
