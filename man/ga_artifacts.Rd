@@ -54,6 +54,8 @@ a
 a_id = a$artifacts[[1]]$id
 \donttest{
 art = ga_artifact("muschellij2", "pycwa", a$artifacts[[1]]$id)
+if (as.POSIXct(art$expires_at) > Sys.time()) {
 dl = ga_artifact_download("muschellij2", "pycwa", a$artifacts[[1]]$id)
+}
 }
 }
