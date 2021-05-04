@@ -128,6 +128,7 @@ ga_secret_create = ga_secret_update
 
 #' @export
 #' @rdname ga_secrets
+#' @param org organization identifier
 ga_org_secrets = function(org, page = NULL, per_page = NULL, ...) {
   out = gh_helper(
     endpoint =  "GET /orgs/{org}/actions/secrets",

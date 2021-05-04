@@ -65,6 +65,8 @@ ga_org_secret_create(
 
 \item{secret}{value of the secret that you are updating}
 
+\item{org}{organization identifier}
+
 \item{visibility}{for keys, what visibility should it have:
 \code{all} - All repositories in an organization can access the secret.
 \code{private} - Private repositories in an organization can access the secret.
