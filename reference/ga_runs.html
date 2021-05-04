@@ -40,8 +40,7 @@
 
 
 <meta property="og:title" content="GitHub runs — ga_run_list" />
-<meta property="og:description" content="GitHub runs
-GitHub runs" />
+<meta property="og:description" content="GitHub runs" />
 
 
 
@@ -113,13 +112,12 @@ GitHub runs" />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>GitHub runs</h1>
-    <small class="dont-index">Source: <a href='https://github.com/muschellij2/aghast/blob/master/R/runs.R'><code>R/runs.R</code></a>, <a href='https://github.com/muschellij2/aghast/blob/master/R/secrets.R'><code>R/secrets.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/muschellij2/aghast/blob/master/R/runs.R'><code>R/runs.R</code></a></small>
     <div class="hidden name"><code>ga_runs.Rd</code></div>
     </div>
 
     <div class="ref-description">
     <p>GitHub runs</p>
-<p>GitHub runs</p>
     </div>
 
     <pre class="usage"><span class='fu'>ga_run_list</span><span class='op'>(</span><span class='va'>owner</span>, repo <span class='op'>=</span> <span class='cn'>NULL</span>, page <span class='op'>=</span> <span class='cn'>NULL</span>, per_page <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span>
@@ -146,9 +144,7 @@ GitHub runs" />
 
 <span class='fu'>ga_run_jobs_table</span><span class='op'>(</span><span class='va'>...</span>, download_logs <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 
-<span class='fu'>ga_run_artifacts</span><span class='op'>(</span><span class='va'>owner</span>, repo <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>run_id</span>, page <span class='op'>=</span> <span class='cn'>NULL</span>, per_page <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span>
-
-<span class='fu'>ga_secrets</span><span class='op'>(</span><span class='va'>owner</span>, repo <span class='op'>=</span> <span class='cn'>NULL</span>, page <span class='op'>=</span> <span class='cn'>NULL</span>, per_page <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+<span class='fu'>ga_run_artifacts</span><span class='op'>(</span><span class='va'>owner</span>, repo <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>run_id</span>, page <span class='op'>=</span> <span class='cn'>NULL</span>, per_page <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -196,31 +192,9 @@ GitHub runs" />
     <p>Answer from the API as a <code>ga_response</code> object, which is also a list.
 Failed requests will generate an R error.
 Requests that generate a raw response will return a raw vector.</p>
-<p>Answer from the API as a <code>ga_response</code> object, which is also a list.
-Failed requests will generate an R error.
-Requests that generate a raw response will return a raw vector.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>have_token</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='fu'>gh</span><span class='fu'>::</span><span class='fu'><a href='https://gh.r-lib.org/reference/gh_token.html'>gh_token</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>&gt;</span> <span class='fl'>0</span>
-<span class='kw'>if</span> <span class='op'>(</span><span class='va'>have_token</span><span class='op'>)</span> <span class='op'>{</span>
-  <span class='va'>runs</span> <span class='op'>=</span> <span class='fu'>ga_run_list</span><span class='op'>(</span><span class='st'>"muschellij2"</span>, <span class='st'>"pycwa"</span><span class='op'>)</span>
-  <span class='va'>tab</span> <span class='op'>=</span> <span class='fu'>ga_run_table</span><span class='op'>(</span><span class='st'>"muschellij2"</span>, <span class='st'>"pycwa"</span><span class='op'>)</span>
-  <span class='va'>tab</span><span class='op'>$</span><span class='va'>head_sha</span>
-  <span class='va'>run_id</span> <span class='op'>=</span> <span class='va'>runs</span><span class='op'>$</span><span class='va'>workflow_runs</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span><span class='op'>$</span><span class='va'>id</span>
-<span class='op'>}</span>
-<span class='co'># \donttest{</span>
-<span class='kw'>if</span> <span class='op'>(</span><span class='va'>have_token</span><span class='op'>)</span> <span class='op'>{</span>
-  <span class='va'>tab</span> <span class='op'>=</span> <span class='fu'>ga_run_table</span><span class='op'>(</span><span class='st'>"muschellij2/pycwa@a9cd1b25ba80a17fb5085f165962785f70590565"</span><span class='op'>)</span>
-  <span class='va'>run</span> <span class='op'>=</span> <span class='fu'>ga_run</span><span class='op'>(</span><span class='st'>"muschellij2"</span>, <span class='st'>"pycwa"</span>, <span class='va'>run_id</span><span class='op'>)</span>
-  <span class='va'>run_jobs</span> <span class='op'>=</span> <span class='fu'>ga_run_jobs</span><span class='op'>(</span><span class='st'>"muschellij2"</span>, <span class='st'>"pycwa"</span>, <span class='va'>run_id</span><span class='op'>)</span>
-  <span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/difftime.html'>difftime</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Sys.time.html'>Sys.time</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/as.POSIXlt.html'>as.POSIXct</a></span><span class='op'>(</span><span class='va'>tab</span><span class='op'>$</span><span class='va'>created_at</span><span class='op'>)</span>, <span class='st'>"days"</span><span class='op'>)</span><span class='op'>&lt;=</span> <span class='fl'>90</span><span class='op'>)</span> <span class='op'>{</span>
-    <span class='va'>run_log</span> <span class='op'>=</span> <span class='fu'>ga_run_download_log</span><span class='op'>(</span><span class='st'>"muschellij2"</span>, <span class='st'>"pycwa"</span>, <span class='va'>run_id</span><span class='op'>)</span>
-  <span class='op'>}</span>
-  <span class='va'>usage</span> <span class='op'>=</span> <span class='fu'>ga_run_usage</span><span class='op'>(</span><span class='st'>"muschellij2"</span>, <span class='st'>"pycwa"</span>, <span class='va'>run_id</span><span class='op'>)</span>
-  <span class='va'>run_artifacts</span> <span class='op'>=</span> <span class='fu'>ga_run_artifacts</span><span class='op'>(</span><span class='st'>"muschellij2"</span>, <span class='st'>"pycwa"</span>, <span class='va'>run_id</span><span class='op'>)</span>
-<span class='op'>}</span>
-<span class='co'># }</span>
-<span class='va'>have_token</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='fu'>gh</span><span class='fu'>::</span><span class='fu'><a href='https://gh.r-lib.org/reference/gh_token.html'>gh_token</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>&gt;</span> <span class='fl'>0</span>
 <span class='kw'>if</span> <span class='op'>(</span><span class='va'>have_token</span><span class='op'>)</span> <span class='op'>{</span>
   <span class='va'>runs</span> <span class='op'>=</span> <span class='fu'>ga_run_list</span><span class='op'>(</span><span class='st'>"muschellij2"</span>, <span class='st'>"pycwa"</span><span class='op'>)</span>
   <span class='va'>tab</span> <span class='op'>=</span> <span class='fu'>ga_run_table</span><span class='op'>(</span><span class='st'>"muschellij2"</span>, <span class='st'>"pycwa"</span><span class='op'>)</span>
