@@ -1,3 +1,7 @@
+# aghast 0.2.0
+
+* Adding in capabilities for secrets.
+
 # aghast 0.1.3
 
 * If `conclusion` is always a column from `ga_run_jobs_table`.
