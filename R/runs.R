@@ -63,7 +63,7 @@ ga_run_list = function(owner, repo = NULL, page = NULL, per_page = NULL, ...) {
 ga_run_table = function(..., sha = NULL, name = NULL) {
   runs = ga_run_list(..., sha = sha)
   runs = make_table(runs)
-  if ("conclusion" %in% colnames(runs) &&
+  if (!("conclusion" %in% colnames(runs)) &&
       nrow(runs) > 0) {
     runs$conclusion = NA
   }
