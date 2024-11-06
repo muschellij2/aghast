@@ -15,19 +15,20 @@
 #' @rdname ga_artifacts
 #' @examples
 #' have_token = length(gh::gh_token()) > 0
-#' if (have_token) {
-#'   a = ga_artifact_list("muschellij2", "pycwa")
-#'   tab = ga_artifact_table("muschellij2/pycwa")
-#'   a
-#'   a_id = a$artifacts[[1]]$id
-#' }
-#' \donttest{
-#' if (have_token) {
-#'   art = ga_artifact("muschellij2", "pycwa", a$artifacts[[1]]$id)
-#'   if (as.POSIXct(art$expires_at) > Sys.time()) {
-#'     dl = ga_artifact_download("muschellij2", "pycwa", a$artifacts[[1]]$id)
+#' \dontrun{
+#'   if (have_token) {
+#'    a = ga_artifact_list("muschellij2", "pycwa")
+#'    tab = ga_artifact_table("muschellij2/pycwa")
+#'    a
+#'    a_id = a$artifacts[[1]]$id
 #'   }
-#' }
+#'
+#'   if (have_token) {
+#'     art = ga_artifact("nmuschellij2", "pycwa", a$artifacts[[1]]$id)
+#'     if (as.POSIXct(art$expires_at) > Sys.time()) {
+#'       dl = ga_artifact_download("muschellij2", "pycwa", a$artifacts[[1]]$id)
+#'     }
+#'   }
 #' }
 ga_artifact_list = function(owner, repo = NULL, page = NULL, per_page = NULL, ...) {
   out = gh_helper(endpoint =  "GET /repos/{owner}/{repo}/actions/artifacts",

@@ -14,24 +14,25 @@
 #'
 #' @rdname ga_runs
 #' @examples
+#' \dontrun{
 #' have_token = length(gh::gh_token()) > 0
-#' if (have_token) {
-#'   runs = ga_run_list("muschellij2", "pycwa")
-#'   tab = ga_run_table("muschellij2", "pycwa")
-#'   tab$head_sha
-#'   run_id = runs$workflow_runs[[1]]$id
-#' }
-#' \donttest{
-#' if (have_token) {
-#'   tab = ga_run_table("muschellij2/pycwa@a9cd1b25ba80a17fb5085f165962785f70590565")
-#'   run = ga_run("muschellij2", "pycwa", run_id)
-#'   run_jobs = ga_run_jobs("muschellij2", "pycwa", run_id)
-#'   if (difftime(Sys.time(), as.POSIXct(tab$created_at), "days")<= 90) {
-#'     run_log = ga_run_download_log("muschellij2", "pycwa", run_id)
+#'   if (have_token) {
+#'     runs = ga_run_list("muschellij2", "pycwa")
+#'     tab = ga_run_table("muschellij2", "pycwa")
+#'     tab$head_sha
+#'     run_id = runs$workflow_runs[[1]]$id
 #'   }
-#'   usage = ga_run_usage("muschellij2", "pycwa", run_id)
-#'   run_artifacts = ga_run_artifacts("muschellij2", "pycwa", run_id)
-#' }
+#'
+#'   if (have_token) {
+#'     tab = ga_run_table("muschellij2/pycwa@a9cd1b25ba80a17fb5085f165962785f70590565")
+#'     run = ga_run("muschellij2", "pycwa", run_id)
+#'     run_jobs = ga_run_jobs("muschellij2", "pycwa", run_id)
+#'     if (difftime(Sys.time(), as.POSIXct(tab$created_at), "days")<= 90) {
+#'       run_log = ga_run_download_log("muschellij2", "pycwa", run_id)
+#'     }
+#'     usage = ga_run_usage("muschellij2", "pycwa", run_id)
+#'     run_artifacts = ga_run_artifacts("muschellij2", "pycwa", run_id)
+#'   }
 #' }
 ga_run_list = function(owner, repo = NULL, page = NULL, per_page = NULL, ...) {
   out = gh_helper(

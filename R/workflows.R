@@ -14,13 +14,14 @@
 #'
 #' @rdname ga_workflows
 #' @examples
+#' \dontrun{
 #' have_token = length(gh::gh_token()) > 0
 #' if (have_token) {
 #'   w = ga_workflow_list("muschellij2/pycwa", page = 1)
 #'   w = ga_workflow_list("muschellij2", "pycwa")
 #'   workflow_id = w$workflows[[1]]$id
 #' }
-#' \donttest{
+#'
 #' if (have_token) {
 #'   runs = ga_workflow_runs("muschellij2", "pycwa", workflow_id)
 #'   flow = ga_workflow("muschellij2", "pycwa", workflow_id)

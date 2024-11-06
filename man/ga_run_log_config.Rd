@@ -18,15 +18,15 @@ A list of character vectors
 Extract Log Configuration
 }
 \examples{
-have_token = length(gh::gh_token()) > 0
-
-if (have_token) {
-  run = ga_run("muschellij2", "pycwa",  "392215958")
-  if (difftime(Sys.time(), as.POSIXct(run$created_at), "days")<= 90) {
-    zipfile = ga_run_download_log("muschellij2", "pycwa",  "392215958")
-  }
-}
 \dontrun{
+ have_token = length(gh::gh_token()) > 0
+  if (have_token) {
+    run = ga_run("muschellij2", "pycwa",  "392215958")
+    if (difftime(Sys.time(), as.POSIXct(run$created_at), "days")<= 90) {
+     zipfile = ga_run_download_log("muschellij2", "pycwa",  "392215958")
+    }
+  }
+
   if (have_token) {
     run = ga_run("r-lib", "actions",  "551409765")
     if (difftime(Sys.time(), as.POSIXct(run$created_at), "days")<= 90) {
