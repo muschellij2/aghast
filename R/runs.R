@@ -176,7 +176,7 @@ ga_run_delete_log = function(owner, repo = NULL, run_id, ...) {
 #' @rdname ga_runs
 #' @export
 ga_run_rerun = function(owner, repo = NULL, run_id, ...) {
-  gh_helper(endpoint = "POST /repos/{owner}/{repo}/actions/runs/{run_id}/rerun",
+  gh_helper(endpoint = "POST /repos/{owner}/{repo}/actions/runs/{run_id}/rerun-failed-jobs",
             owner = owner, repo = repo, run_id = run_id, add_limit = FALSE,  ...)
 }
 
